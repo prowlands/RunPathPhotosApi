@@ -8,7 +8,7 @@ namespace Runpath.Api
 {
     public interface IAlbumProcessor
     {
-        IEnumerable<Album> GetAllAlbums();
-        IEnumerable<Album> GetAlbumsByUser(int userId);
+        List<Album> GetAllAlbums();
+        List<Album> GetAlbumsByUser(int userId);
     }
 }

@@ -16,26 +16,30 @@ namespace Runpath.Api
             _photoRepo = photoRepo;
         }
 
-        public IEnumerable<Album> GetAlbumsByUser(int userId)
+        public List<Album> GetAlbumsByUser(int userId)
         {
             var albumList = _photoRepo.GetAlbums().Where(x => x.UserId == userId).ToList();
-            var photoList = _photoRepo.GetPhotos();
+            var photoList = _photoRepo.GetPhotos().ToList();
 
-            var response = new List<Album>();
-            foreach (var album in albumList)
-            {
-                album.Photos = photoList.Where(x => x.AlbumId == album.Id).ToList();
-                response.Add(album);
-            }
+            List<Album> response = AddPhotosToAlbums(albumList, photoList);
 
             return response;
         }
 
-        public IEnumerable<Album> GetAllAlbums()
-        {
-            var albumList = _photoRepo.GetAlbums();
-            var photoList = _photoRepo.GetPhotos();
 
+
+        public List<Album> GetAllAlbums()
+        {
+            var albumList = _photoRepo.GetAlbums().ToList();
+            var photoList = _photoRepo.GetPhotos().ToList();
+
+            List<Album> response = AddPhotosToAlbums(albumList, photoList);
+
+            return response;
+        }
+
+        private static List<Album> AddPhotosToAlbums(List<Album> albumList, List<Photo> photoList)
+        {
             var response = new List<Album>();
             foreach (var album in albumList)
             {
